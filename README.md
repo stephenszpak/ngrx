@@ -1,7 +1,17 @@
 ## NGRX BOILERPLATE
 
-NGRX boilerplate using angular material
+# NGRX boilerplate using angular material
 
-**after you clone**
-_in terminal_
-`cd ngrx` then `npm install`
+> **Note:** just a note :)
+
+## Installation
+```
+git clone <this repo>
+
+cd ngrx
+
+npm install
+
+ng serve
+
+```
