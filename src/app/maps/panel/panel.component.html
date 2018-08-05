@@ -1,0 +1,33 @@
+<div fxLayout="row">
+  <form>
+
+    <mat-form-field class="location-search" appearance="outline">
+      <mat-label>Search...</mat-label>
+      <input matInput type="text" placeholder="Search.." class="search-input" autocorrect="off" autocapitalize="off" spellcheck="off" autocomplete="off" #search formControl="searchControl">
+    </mat-form-field>
+
+  </form>
+</div>
+
+<div class="wrapper">
+  <mat-card class="box mat-elevation-z7" *ngFor="let location of locationList, let i = index" (click)="openWindow(location, i)">
+    <mat-card-header>
+      <mat-card-title>
+        <h3>{{location.title}}</h3>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="web">
+        <a href="{{location.website}}" target="_blank">Visit Website</a>
+      </div>
+      <div class="address">{{location.address}}
+        <br>{{location.city}}, {{location.state}}, {{location.postalcode}}
+      </div>
+      <div class="phone">{{location.phone}}</div>
+      <div class="email">{{location.email}}</div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-stroked-button routerLink="/dogparks">Add To Favorites</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

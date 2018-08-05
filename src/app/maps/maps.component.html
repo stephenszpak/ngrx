@@ -1,0 +1,25 @@
+<app-layout>
+
+  <agm-map [latitude]="lat" [longitude]="lng" [zoom]="zoom" [disableDefaultUI]="false" [zoomControl]="false" (mapClick)="mapClicked($event)">
+
+    <agm-marker *ngFor="let m of markers; let i = index" (markerClick)="clickedMarker(m.title, i)" [latitude]="m.lat" [longitude]="m.lng" [label]="m.title" [iconUrl]="m.icon" [markerDraggable]="m.draggable">
+
+      <agm-info-window [isOpen]="isInfoWindowOpen(i)">
+        <div class="title">{{ m.title }}</div>
+        <div class="web">
+          <a href="{{m.website}}" target="_blank">Visit Website</a>
+        </div>
+        <div class="address">{{m.address}}
+          <br>{{m.city}}, {{m.state}}, {{m.postalcode}}</div>
+        <div class="phone">{{m.phone}}</div>
+        <div class="email">{{m.email}}</div>
+      </agm-info-window>
+
+    </agm-marker>
+  </agm-map>
+
+  <br>
+
+  <app-panel></app-panel>
+
+</app-layout>

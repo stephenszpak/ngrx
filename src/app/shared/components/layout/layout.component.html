@@ -2,12 +2,13 @@
   <mat-drawer #sidenav (keydown.escape)="close('escape')" disableClose>
     <mat-list>
       <mat-list-item><button mat-button routerLink="/index" routerLinkActive="active">Dashboard</button></mat-list-item>
+      <mat-list-item><button mat-button routerLink="/search" routerLinkActive="active">Find Dogparks!</button></mat-list-item>
     </mat-list>
   </mat-drawer>
   <mat-drawer-content>
     <mat-toolbar color="primary">
       <mat-icon (click)="sidenav.open()">menu</mat-icon>
-      <span>NGRX BOILERPLATE</span>
+      <span>OFF LEASH</span>
     </mat-toolbar>
     <div fxLayout="row" fxLayoutAlign="center stretch">
       <div fxFlex.xs="90%" fxFlex.sm="80%" fxFlex.md="70%" fxFlex.lg="65%" fxFlex.xl="60%">
