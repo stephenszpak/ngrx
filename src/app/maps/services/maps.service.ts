@@ -4,8 +4,8 @@ import { Subject } from 'rxjs/Subject';
 @Injectable({ providedIn: 'root' })
 export class MapsService {
 
-  public lat: number = 43.678418;
-  public lng: number = -79.809007;
+  public lat: number;
+  public lng: number;
   public zoom: number = 8;
 
   public newCoordinators = new Subject();

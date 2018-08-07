@@ -1,115 +1,73 @@
-import { Injectable } from '@angular/core';
-import { Marker } from '../../core/models/markers';
-import { AgmMarker } from '../../../../node_modules/@agm/core/directives/marker';
-import { MapsService } from './maps.service';
-import { } from 'googlemaps';
+import { Injectable, NgZone } from "@angular/core";
+import { Marker } from "../../core/models/markers";
+import { MapsService } from "./maps.service";
+import {} from "googlemaps";
+import { MapsAPILoader, GoogleMapsAPIWrapper, AgmMap } from "@agm/core";
 
-@Injectable({ providedIn: 'root' })
+@Injectable({ providedIn: "root" })
 export class LocationsService {
+  mrkers: google.maps.Marker;
   lat: number;
   lng: number;
-  mapOptions = {};
-  locationList: Array<any> = [];
+  location: any;
+  locations: any = [];
+  mkrs: any = [];
+  service: any;
+  markers: Marker[];
 
+  constructor(private ngZone: NgZone, private wrapper: GoogleMapsAPIWrapper, private mapService: MapsService) {}
 
-  markerz: Marker[];
-
-  constructor(private mapsService: MapsService) { }
-
-  initialize() {
-    let bounds = new google.maps.LatLngBounds();
-    let map;
-    let radius = 1000;
-
-    let center = new google.maps.LatLng(this.lat, this.lng),
-      mapOptions = {
-        center: center,
-        zoom: 12,
-        scrollwheel: false
-      };
-
-      this.setMarkers(center, radius, map);
-
-  }
-
-  setMarkers(center, radius, map) {
+  getLocations(map: any) {
     let service = new google.maps.places.PlacesService(map);
-    service.textSearch({
-      location: {
-        lat: this.lat,
-        lng: this.lng
+    service.nearbySearch(
+      {
+        location: {
+          lat: this.mapService.lat,
+          lng: this.mapService.lng
+        },
+        radius: 1000,
+        keyword: "dog parks"
       },
-      radius: radius,
-      query: "dog parks"
-    }, (res, status, pagnation) => {
-      let locations;
-      locations = res;
-      for (let i = 0; i < locations.length; i++) {
-        this.locationList.push({
-          "placeId": locations[i].place_id
-        });
+      (result, status, pagnination) => {
+        if (status == google.maps.places.PlacesServiceStatus.OK)
+          this.locations = result;
+        console.log(this.locations);
+        for (let i = 0; i < this.locations.length; i++) {
+          this.locations.push({
+            placeId: this.locations[i].place_id
+          });
+          this.createMarker(this.locations, map);
+          console.log(this.locations);
+        }
       }
-    });
-    console.log(this.locationList);
+    );
   }
 
-  createMarker(data, map) {
+  createMarker(data, map: any) {
     let service = new google.maps.places.PlacesService(map);
-
+    service.getDetails(
+      {
+        placeId: data.placeId
+      },
+      (result, status) => {
+        if (status == google.maps.places.PlacesServiceStatus.OK) return;
+        let marker = new google.maps.Marker({
+          map: map,
+          place: {
+            placeId: data.placeId,
+            location: result.geometry.location
+          },
+          position: result.geometry.location,
+          title: result.name
+        });
+        this.mkrs.push(marker);
+      }
+    );
   }
 
-
-  markers: Marker[] = [
-    {
-      lat: 43.678418,
-      lng: -79.809007,
-      title: 'Aasdfa3265236sdfhshfasdf',
-      icon: 'https://www.ftsgps.com/wp-content/uploads/2017/05/icon-location-100.png',
-      draggable: false,
-      street: '123 Yonge Street',
-      city: 'Toronto',
-      state: 'ON',
-      postalcode: '75201',
-      email: 'test@example.com',
-      phone: '111-111-1111',
-      website: 'http://example.com',
-      detail: 'InfoWindow content'
-    },
-    {
-      lat: 43.678418,
-      lng: -80.809007,
-      title: 'B',
-      icon: 'https://www.ftsgps.com/wp-content/uploads/2017/05/icon-location-100.png',
-      draggable: false,
-      street: '123 Yonge Street',
-      city: 'Toronto',
-      state: 'ON',
-      postalcode: '75201',
-      email: 'test@example.com',
-      phone: '111-111-1111',
-      website: 'http://example.com',
-      detail: 'InfoWindow content'
-    },
-    {
-      lat: 43.978418,
-      lng: -78.809007,
-      title: 'C',
-      icon: 'https://www.ftsgps.com/wp-content/uploads/2017/05/icon-location-100.png',
-      draggable: false,
-      street: '2222 McKinney Ave Suite 120',
-      city: 'Toronto',
-      state: 'ON',
-      postalcode: '75201',
-      email: 'test@example.com',
-      phone: '111-111-1111',
-      website: 'http://example.com',
-      detail: 'InfoWindow content'
-    }
-  ];
-
+  m: Marker[] = [];
 
   getMarkers() {
-    return this.markers;
+    return this.m;
   }
-
 }

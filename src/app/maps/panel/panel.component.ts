@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef, NgZone } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MapsAPILoader } from '@agm/core';
+import { MapsAPILoader, GoogleMapsAPIWrapper } from '@agm/core';
 import { } from 'googlemaps';
 import { MapsService } from '../services/maps.service';
 import { LocationsService } from '../services/locations.service';
@@ -21,7 +21,7 @@ export class PanelComponent implements OnInit {
 
   options = {
     componentRestrictions: {
-      country: "us"
+      country: 'us'
     }
   };
 
@@ -29,7 +29,8 @@ export class PanelComponent implements OnInit {
     private mapApiLoader: MapsAPILoader,
     private ngZone: NgZone,
     private mapsService: MapsService,
-    private locationsService: LocationsService
+    private locationsService: LocationsService,
+    public mapApiWrapper: GoogleMapsAPIWrapper
   ) { }
 
   ngOnInit() {

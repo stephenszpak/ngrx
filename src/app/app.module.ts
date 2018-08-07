@@ -5,8 +5,8 @@ import { RouterModule, Routes } from '@angular/router';
 import { SharedModule } from './shared/shared.module';
 import { StateModule } from './state/state.module';
 import { CoreModule } from './core/core.module';
-import { AgmCoreModule } from '@agm/core';
-import { LoadingModule } from 'ngx-loading';
+import { AgmCoreModule, GoogleMapsAPIWrapper } from '@agm/core';
+import { LoadingModule, ANIMATION_TYPES } from 'ngx-loading';
 import { SlimLoadingBarModule } from 'ng2-slim-loading-bar';
 
 import {
@@ -51,6 +51,7 @@ import { PanelComponent } from './maps/panel/panel.component';
       libraries: ['places']
     }),
     LoadingModule.forRoot({
+      animationType: ANIMATION_TYPES.circleSwish,
       primaryColour: '#03A9F4',
       secondaryColour: '#03A9F4',
       tertiaryColour: '#03A9F4'
@@ -68,7 +69,7 @@ import { PanelComponent } from './maps/panel/panel.component';
     MatListModule,
     MatMenuModule
   ],
-  providers: [],
+  providers: [GoogleMapsAPIWrapper],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
